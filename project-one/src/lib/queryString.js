@@ -9,8 +9,20 @@ const keyValueToString = ([key, value]) => {
  * @param {object} obj
  * @return {string}
  */
-const queryString = (obj) => {
+module.exports.queryString = (obj) => {
   return Object.entries(obj).map(keyValueToString).join('&');
 };
 
-module.exports = queryString;
+/**
+ * @param {string} str
+ * @return {object}
+ */
+module.exports.parse = (str) => {
+  return str
+    .split('&')
+    .map((str) => str.split('='))
+    .reduce((acc, [key, value]) => {
+      acc[key] = decodeURIComponent(value);
+      return acc;
+    }, {});
+};
