@@ -22,7 +22,9 @@ module.exports.parse = (str) => {
     .split('&')
     .map((str) => str.split('='))
     .reduce((acc, [key, value]) => {
-      acc[key] = decodeURIComponent(value);
+      const valueDecoded = decodeURIComponent(value);
+      if (valueDecoded.includes(',')) acc[key] = valueDecoded.split(',');
+      else acc[key] = valueDecoded;
       return acc;
     }, {});
 };
