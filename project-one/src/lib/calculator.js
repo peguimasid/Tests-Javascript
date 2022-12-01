@@ -7,4 +7,4 @@ const sum = (n1, n2) => {
   return int1 + int2;
 };
 
-module.exports = sum;
+export default sum;

@@ -9,7 +9,7 @@ const keyValueToString = ([key, value]) => {
  * @param {object} obj
  * @return {string}
  */
-module.exports.queryString = (obj) => {
+export const queryString = (obj) => {
   return Object.entries(obj).map(keyValueToString).join('&');
 };
 
@@ -17,7 +17,7 @@ module.exports.queryString = (obj) => {
  * @param {string} str
  * @return {object}
  */
-module.exports.parse = (str) => {
+export const parse = (str) => {
   return str
     .split('&')
     .map((str) => str.split('='))
