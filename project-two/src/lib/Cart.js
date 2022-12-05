@@ -5,8 +5,7 @@ export class Cart {
 
   getTotal() {
     return this.itens.reduce((acc, { product, quantity }) => {
-      acc += product.price * quantity;
-      return acc;
+      return acc + product.price * quantity;
     }, 0);
   }
 
