@@ -1,15 +1,23 @@
+import { find, remove } from "lodash";
+
 export class Cart {
   constructor() {
-    this.itens = [];
-  }
-
-  getTotal() {
-    return this.itens.reduce((acc, { product, quantity }) => {
-      return acc + product.price * quantity;
-    }, 0);
+    this.items = [];
   }
 
   add(item) {
-    this.itens.push(item);
+    const itemToFind = { product: item.product };
+
+    if (find(this.items, itemToFind)) {
+      remove(this.items, itemToFind);
+    }
+
+    this.items.push(item);
+  }
+
+  getTotal() {
+    return this.items.reduce((acc, { product, quantity }) => {
+      return acc + product.price * quantity;
+    }, 0);
   }
 }

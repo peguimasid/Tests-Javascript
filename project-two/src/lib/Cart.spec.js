@@ -2,6 +2,10 @@ import { Cart } from "./Cart";
 
 describe("Cart", () => {
   let cart = new Cart();
+  const product = {
+    title: "Airpods Pro",
+    price: 35388,
+  };
 
   beforeEach(() => {
     cart = new Cart();
@@ -22,5 +26,19 @@ describe("Cart", () => {
 
     cart.add(item);
     expect(cart.getTotal()).toEqual(70776);
+  });
+
+  it("should ensure that a product appear just once in cart", () => {
+    cart.add({
+      product,
+      quantity: 2,
+    });
+
+    cart.add({
+      product,
+      quantity: 1,
+    });
+
+    expect(cart.getTotal()).toEqual(35388);
   });
 });
