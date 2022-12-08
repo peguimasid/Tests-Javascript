@@ -24,4 +24,11 @@ export class Cart {
       return acc + product.price * quantity;
     }, 0);
   }
+
+  checkout() {
+    return {
+      items: this.items,
+      total: this.getTotal(),
+    };
+  }
 }

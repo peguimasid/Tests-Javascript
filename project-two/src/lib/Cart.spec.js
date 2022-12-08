@@ -17,50 +17,68 @@ describe("Cart", () => {
     cart = new Cart();
   });
 
-  it("should return 0 when getTotal() is executed in a newly created instance", () => {
-    expect(cart.getTotal()).toEqual(0);
+  describe("getTotal()", () => {
+    it("should return 0 when getTotal() is executed in a newly created instance", () => {
+      expect(cart.getTotal()).toEqual(0);
+    });
+
+    it("should multipy quantity and price and return the total amount", () => {
+      const item = {
+        product: {
+          title: "Airpods Pro",
+          price: 35388,
+        },
+        quantity: 2,
+      };
+
+      cart.add(item);
+      expect(cart.getTotal()).toEqual(70776);
+    });
+
+    it("should ensure that a product appear just once in cart", () => {
+      cart.add({
+        product,
+        quantity: 2,
+      });
+
+      cart.add({
+        product,
+        quantity: 1,
+      });
+
+      expect(cart.getTotal()).toEqual(35388);
+    });
+
+    it("should update total when a product its includes and then removed from card", () => {
+      cart.add({
+        product,
+        quantity: 2,
+      });
+
+      cart.add({
+        product: product2,
+        quantity: 2,
+      });
+
+      cart.remove(product);
+
+      expect(cart.getTotal()).toEqual(197490);
+    });
   });
 
-  it("should multipy quantity and price and return the total amount", () => {
-    const item = {
-      product: {
-        title: "Airpods Pro",
-        price: 35388,
-      },
-      quantity: 2,
-    };
+  describe("checkout()", () => {
+    it("should return an object with the total and the list of items", () => {
+      cart.add({
+        product,
+        quantity: 2,
+      });
 
-    cart.add(item);
-    expect(cart.getTotal()).toEqual(70776);
-  });
+      cart.add({
+        product: product2,
+        quantity: 3,
+      });
 
-  it("should ensure that a product appear just once in cart", () => {
-    cart.add({
-      product,
-      quantity: 2,
+      expect(cart.checkout()).toMatchSnapshot();
     });
-
-    cart.add({
-      product,
-      quantity: 1,
-    });
-
-    expect(cart.getTotal()).toEqual(35388);
-  });
-
-  it("should update total when a product its includes and then removed from card", () => {
-    cart.add({
-      product,
-      quantity: 2,
-    });
-
-    cart.add({
-      product: product2,
-      quantity: 2,
-    });
-
-    cart.remove(product);
-
-    expect(cart.getTotal()).toEqual(197490);
   });
 });
