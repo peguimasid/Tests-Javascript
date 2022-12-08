@@ -80,5 +80,20 @@ describe("Cart", () => {
 
       expect(cart.checkout()).toMatchSnapshot();
     });
+
+    it("should clear the cart when checkout() method is called", () => {
+      cart.add({
+        product,
+        quantity: 2,
+      });
+
+      cart.add({
+        product: product2,
+        quantity: 3,
+      });
+
+      cart.checkout();
+      expect(cart.getTotal()).toEqual(0);
+    });
   });
 });

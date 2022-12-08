@@ -1,4 +1,4 @@
-import { find, remove } from "lodash";
+import { find, remove, times } from "lodash";
 
 export class Cart {
   constructor() {
@@ -26,9 +26,14 @@ export class Cart {
   }
 
   checkout() {
+    const total = this.getTotal();
+    const items = this.items;
+
+    this.items = [];
+
     return {
-      items: this.items,
-      total: this.getTotal(),
+      items,
+      total,
     };
   }
 }
