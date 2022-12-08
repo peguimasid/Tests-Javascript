@@ -2,9 +2,15 @@ import { Cart } from "./Cart";
 
 describe("Cart", () => {
   let cart = new Cart();
+
   const product = {
     title: "Airpods Pro",
     price: 35388,
+  };
+
+  const product2 = {
+    title: "Airpods Max",
+    price: 98745,
   };
 
   beforeEach(() => {
@@ -40,5 +46,21 @@ describe("Cart", () => {
     });
 
     expect(cart.getTotal()).toEqual(35388);
+  });
+
+  it("should update total when a product its includes and then removed from card", () => {
+    cart.add({
+      product,
+      quantity: 2,
+    });
+
+    cart.add({
+      product: product2,
+      quantity: 2,
+    });
+
+    cart.remove(product);
+
+    expect(cart.getTotal()).toEqual(197490);
   });
 });
