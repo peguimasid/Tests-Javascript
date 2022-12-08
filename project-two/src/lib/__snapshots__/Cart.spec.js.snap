@@ -21,3 +21,25 @@ exports[`Cart checkout() should return an object with the total and the list of 
   "total": 367011,
 }
 `;
+
+exports[`Cart checkout() should return an object with the total and the list of items when summary() method is called 1`] = `
+{
+  "items": [
+    {
+      "product": {
+        "price": 35388,
+        "title": "Airpods Pro",
+      },
+      "quantity": 2,
+    },
+    {
+      "product": {
+        "price": 98745,
+        "title": "Airpods Max",
+      },
+      "quantity": 3,
+    },
+  ],
+  "total": 367011,
+}
+`;

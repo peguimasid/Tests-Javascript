@@ -25,15 +25,19 @@ export class Cart {
     }, 0);
   }
 
+  summary() {
+    const total = this.getTotal();
+    const items = this.items;
+
+    return { items, total };
+  }
+
   checkout() {
     const total = this.getTotal();
     const items = this.items;
 
     this.items = [];
 
-    return {
-      items,
-      total,
-    };
+    return { items, total };
   }
 }
