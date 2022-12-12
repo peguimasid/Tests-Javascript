@@ -1,4 +1,9 @@
-import { find, remove, times } from "lodash";
+import { find, remove } from "lodash";
+
+import Money from "dinero.js";
+
+Money.defaultCurrency = "BRL";
+Money.defaultPrecision = 2;
 
 export class Cart {
   constructor() {
@@ -21,19 +26,19 @@ export class Cart {
 
   getTotal() {
     return this.items.reduce((acc, { product, quantity }) => {
-      return acc + product.price * quantity;
-    }, 0);
+      return acc.add(Money({ amount: product.price * quantity }));
+    }, Money({ amount: 0 }));
   }
 
   summary() {
-    const total = this.getTotal();
+    const total = this.getTotal().getAmount();
     const items = this.items;
 
     return { items, total };
   }
 
   checkout() {
-    const total = this.getTotal();
+    const total = this.getTotal().getAmount();
     const items = this.items;
 
     this.items = [];
