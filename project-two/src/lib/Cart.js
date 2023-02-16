@@ -1,5 +1,15 @@
 import { find, remove } from "lodash";
 
+const calculatePercentageDiscount = (amount, item) => {
+  const { condition, quantity } = item;
+
+  if (condition && quantity >= condition.minimum) {
+    return amount.percentage(condition.percentage);
+  }
+
+  return Money({ amount: 0 });
+};
+
 import Money from "dinero.js";
 
 Money.defaultCurrency = "BRL";
@@ -25,13 +35,10 @@ export class Cart {
   }
 
   getTotal() {
-    return this.items.reduce((acc, { product, quantity, condition }) => {
+    return this.items.reduce((acc, item) => {
+      const { product, quantity } = item;
       const amount = Money({ amount: product.price * quantity });
-      let discount = Money({ amount: 0 });
-
-      if (condition && quantity >= condition.minimum) {
-        discount = amount.percentage(condition.percentage);
-      }
+      const discount = calculatePercentageDiscount(amount, item);
 
       return acc.add(amount).subtract(discount);
     }, Money({ amount: 0 }));
