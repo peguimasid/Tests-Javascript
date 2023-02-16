@@ -10,6 +10,16 @@ const calculatePercentageDiscount = (amount, item) => {
   return Money({ amount: 0 });
 };
 
+const calculateQuantityDiscount = (amount, item) => {
+  const { condition, quantity } = item;
+
+  if (condition?.quantity && quantity > condition.quantity) {
+    return amount.percentage(50);
+  }
+
+  return Money({ amount: 0 });
+};
+
 import Money from "dinero.js";
 
 Money.defaultCurrency = "BRL";
@@ -36,9 +46,22 @@ export class Cart {
 
   getTotal() {
     return this.items.reduce((acc, item) => {
-      const { product, quantity } = item;
+      const { product, quantity, condition } = item;
       const amount = Money({ amount: product.price * quantity });
-      const discount = calculatePercentageDiscount(amount, item);
+
+      let discount = Money({ amount: 0 });
+
+      if (condition?.minimum) {
+        discount = calculatePercentageDiscount(amount, item);
+      }
+
+      if (condition?.quantity) {
+        discount = calculateQuantityDiscount(amount, item);
+      }
+
+      if (condition?.quantity && quantity > condition.quantity) {
+        discount = amount.percentage(50);
+      }
 
       return acc.add(amount).subtract(discount);
     }, Money({ amount: 0 }));
