@@ -1,4 +1,8 @@
+import Money from "dinero.js";
 import { find, remove } from "lodash";
+
+Money.defaultCurrency = "BRL";
+Money.defaultPrecision = 2;
 
 const calculatePercentageDiscount = (amount, item) => {
   const { condition, quantity } = item;
@@ -13,17 +17,14 @@ const calculatePercentageDiscount = (amount, item) => {
 const calculateQuantityDiscount = (amount, item) => {
   const { condition, quantity } = item;
 
+  const isEven = quantity % 2 === 0;
+
   if (condition?.quantity && quantity > condition.quantity) {
-    return amount.percentage(50);
+    return amount.percentage(isEven ? 50 : 40);
   }
 
   return Money({ amount: 0 });
 };
-
-import Money from "dinero.js";
-
-Money.defaultCurrency = "BRL";
-Money.defaultPrecision = 2;
 
 export class Cart {
   constructor() {
@@ -57,10 +58,6 @@ export class Cart {
 
       if (condition?.quantity) {
         discount = calculateQuantityDiscount(amount, item);
-      }
-
-      if (condition?.quantity && quantity > condition.quantity) {
-        discount = amount.percentage(50);
       }
 
       return acc.add(amount).subtract(discount);
